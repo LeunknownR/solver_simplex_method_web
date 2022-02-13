@@ -1,0 +1,212 @@
+/* General */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap');
+* {
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+label {
+    font-weight: bold;
+}
+/* Scrollbar */
+*::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+}
+*::-webkit-scrollbar-track {
+    background-color: #252525;
+}
+*::-webkit-scrollbar-thumb {
+    background-color: #353535;
+    border-radius: 3px;
+}
+/* === */
+.field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.field .content {
+    align-items: center;
+}
+.custom-select,
+.custom-input-text {
+    color: #ffffff;
+    border: 0;
+    outline: none;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+.custom-select {
+    background-color: #555555;
+    cursor: pointer;
+    width: 140px;
+    font-size: 16px;
+    text-align: center;
+}
+.custom-select.small {
+    width: 60px;
+    font-size: 16px;
+}
+.custom-input-text {
+    background-color: #353535;
+    width: 50px;
+}
+.sign {
+    font-size: 22px;
+}
+.factor {
+    font-weight: bold;
+    color: #6542ff;
+}
+
+/* Main */
+/* Button Add Restriction */
+.custom-btn {
+    --color1: #53d35e;
+    --color2: #ffffff;
+    background-color: #353535;
+    display: flex;
+    background-color: var(--color1);
+    color: var(--color2);
+    border: 5px solid var(--color1);
+    border-radius: 8px;
+    width: max-content;
+    padding: 12px 8px;
+    transition: 0.3s;
+    user-select: none;
+    cursor: pointer;
+}
+.custom-btn:hover {
+    background-color: var(--color2);
+    color: var(--color1);
+}
+.custom-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+}
+.custom-btn.delete {
+    --color1: #ff3344;
+}
+.custom-btn.processing {
+    --color1: #535ed3;
+    padding: 10px;
+}
+#btn-generate-restrictions {
+    --color1: #353535;
+    font-size: 15px;
+}
+#btn-add-restriction .iconify,
+#btn-delete-restriction .iconify {
+    font-size: 30px;
+}
+/* Main Header */
+#main-header, #main-footer {
+    display: flex;
+}
+#main-header {
+    background-color: #151515;
+}
+#main-header h1 {
+    margin-left: 20px;
+    color: #f3f336;
+}
+/* === */
+/* Main Footer */
+#main-footer {
+    background-color: #E5E5E5;
+    justify-content: flex-end;
+}
+#main-footer h5 {
+    margin-right: 30px;
+    color: #454545;
+}
+/* === */
+main {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+#form-data-case, 
+#form-data-case > .content {
+    display: flex;
+    flex-direction: column;
+}
+#form-data-case {
+    display: flex;
+    gap: 15px;
+    width: 600px;
+}
+@media (max-width: 700px) {
+    #form-data-case {
+        width: 90%;
+    }
+}
+#form-data-case .content {
+    gap: 15px;
+}
+#form-data-case > footer {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #00000035;
+    padding: 10px;
+}
+/* === */
+/* TARGET FUNCTION */
+#target-function, 
+#target-function .content, 
+#target-function .content .factor {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+#target-function .content {
+    flex-wrap: wrap;
+    width: 350px;
+}
+#target-function label {
+    width: 110px;
+    text-align: center;
+}
+/* === */
+#container-restrictions,
+#container-restrictions .field .content {
+    display: flex;
+}
+#container-restrictions {
+    flex-direction: column;
+    gap: 10px;
+}
+#container-restrictions header h3 {
+    margin: 5px;
+    color: #959595;
+}
+#container-restrictions > .content {
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#container-restrictions .content .field .factor {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+#container-restrictions .field .content {
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 310px;
+}
+#container-restrictions > footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}

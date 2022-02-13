@@ -3,9 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./public/styles/normalize.css">
+    <link rel="stylesheet" href="./public/styles/index.css">
     <title>Solver Simplex Method</title>
 </head>
 <body>
+    <header id="main-header">
+        <h1>Solver Simplex Method</h1>
+    </header>
+    <main>
+        <form id="form-data-case">
+            <section class="content">
+                <div class="field">
+                    <label>Tipo:</label>
+                    <select id="type-case-input" class="custom-select">
+                        <option value="MAX" selected>Maximización</option>
+                        <option value="MIN">Minimización</option>
+                    </select>
+                </div>
+                <div class="field" id="target-function">
+                    <label class="start">
+                        Z (<span class="type">Max</span>) =
+                    </label>
+                    <div class="content">
+                        <div class="factor">
+                            <input class="custom-input-text coeff" value="10"/>
+                            <span class="variable">X1</span>
+                        </div>
+                        <span class="sign">+</span>
+                        <div class="factor">
+                            <input class="custom-input-text coeff" value="10"/>
+                            <span class="variable">X2</span>
+                        </div>
+                    </div>
+                    <div
+                        class="custom-btn secondary" 
+                        id="btn-add-variable">
+                        <span 
+                            class="iconify" 
+                            data-icon="bx:bxs-message-square-add"></span>
+                    </div>
+                    <div
+                        class="custom-btn delete" 
+                        id="btn-delete-variable">
+                        <span class="iconify" data-icon="entypo:circle-with-cross"></span>
+                    </div>
+                    <div class="custom-btn"
+                        id="btn-generate-restrictions">
+                        <span>Organizar restricciones</span>
+                    </div>
+                </div>
+                <div id="container-restrictions">
+                    <header>
+                        <h3>Restricciones</h3>
+                    </header>
+                    <section class="content">
+                    </section>
+                    <footer>
+                        <div
+                            class="custom-btn add" 
+                            id="btn-add-restriction">
+                            <span class="iconify" data-icon="bx:bxs-message-square-add"></span>
+                        </div>
+                        <div
+                            class="custom-btn delete" 
+                            id="btn-delete-restriction">
+                            <span class="iconify" data-icon="entypo:circle-with-cross"></span>
+                        </div>
+                    </footer>
+                </div>
+            </section>
+            <footer>
+                <button
+                    id="btn-show-solution"
+                    class="custom-btn processing">
+                    <span>Procesar</span>
+                    <span class="iconify" data-icon="carbon:operations-record"></span>
+                </button>
+            </footer>
+        </form>
+    </main>
+    <footer id="main-footer">
+        <h5>Desarrollado por Manuel Rivera</h5>
+    </footer>
+    <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
     <script type="module" src="./public/scripts/index.js"></script>
 </body>
 </html>
