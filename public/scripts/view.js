@@ -18,7 +18,7 @@ const templates = {
                 `<span class="sign">+</span>`
         }
         <div class="factor">
-            <input class="custom-input-text coeff" value="0"/>
+            <input class="custom-input-text coeff" value="1"/>
             <span class="variable">X${idx}</span>
         </div>
     `,
@@ -31,11 +31,38 @@ const templates = {
                 ${$factors}
             </div>
             <select class="custom-select small sign">
-                <option value="LESS_OR_EQUALS"><=</option>
-                <option value="GREATER_OR_EQUALS">>=</option>
-                <option value="EQUALS">=</option>
+                <option selected value="LESS_OR_EQUALS"><=</option>
+                <option disabled value="GREATER_OR_EQUALS">>=</option>
+                <option disabled value="EQUALS">=</option>
             </select>
             <input class="custom-input-text limit" value="100"/>
+        </div>
+    `,
+    getSolution: (
+            typeCase, 
+            resultTargetFunction, 
+            solutionVariables, 
+            countIterations
+        ) => /*html*/`
+        <header>
+            <h2>Resultados</h2>
+            <div id="count-iterations">
+                <span class="description">Iteraciones realizadas:</span>
+                <span class="value">${countIterations}</span>
+            </div>
+        </header>
+        <div id="solution-target-function">
+            <span class="function">Z(<span class="type">${typeCase}</span>) =</span>
+            <span class="result">${resultTargetFunction}</span>
+        </div>
+        <div id="solution-variables">
+            ${solutionVariables}
+        </div>
+    `,
+    getSolutionVariables: ({ key, value }) => /*html*/`
+        <div class="variable">
+            <span class="key">${key} =</span>
+            <span class="value">${value}</span>
         </div>
     `
 };
@@ -81,6 +108,23 @@ export class HandlerTargetFunction {
     }
 }
 
+export class HandlerCustomInputText {
+    constructor() {
+
+    }
+    init() {
+        setInterval(() => {
+            const $inputs = document.querySelectorAll(".custom-input-text:not([data-handled])");
+            $inputs.forEach(($input) => {
+                $input.addEventListener("keypress", (e) => {
+                    if (!/^[0-9]$/.test(e.key))
+                        e.preventDefault();
+                });
+                $input.dataset.handled = true;
+            });
+        }, 500);
+    }
+}
 export class HandleRestrictions {
     #idx;
     #handlerTargetFunction;
@@ -156,9 +200,13 @@ export class HandleRestrictions {
 
 export class InputTypeCase {
     #value;
+    constructor() {
+        this.#value = "MAX";
+    }
     init() {
         const $typeCaseInput = document.querySelector("#type-case-input");
         this.#value = $typeCaseInput.value;
+        this.#setTypeCaseInTargetFunction();
         $typeCaseInput.addEventListener("change", e => {
             this.#value = e.target.value;
             this.#setTypeCaseInTargetFunction();
@@ -193,33 +241,29 @@ export class FormDataCase {
             }
         );
     }
-    #solve() {
-        // const typeCase = this.#inputTypeCase.getValue();
-        const typeCase = "MAX";
-        // const targetFunction = this.#handlerTargetFunction.getData();
-        const targetFunction = [3, 1, 2];
-        // const restrictions = this.#handleRestrictions.getRestrictionsData();
-        // const restrictions = [
-        //     new RestrictionSimplex([1, 2, 1], "LESS_OR_EQUALS", 5),
-        //     new RestrictionSimplex([4, 1, 0], "GREATER_OR_EQUALS", 10),
-        //     new RestrictionSimplex([1, 1, 1], "LESS_OR_EQUALS", 40),
-        // ];
-        const restrictions = [
-            new RestrictionSimplex([1, 1, 1], "LESS_OR_EQUALS", 4),
-            new RestrictionSimplex([0, 1, 2], "LESS_OR_EQUALS", 6),
-            new RestrictionSimplex([1, 3, 4], "LESS_OR_EQUALS", 5),
-            new RestrictionSimplex([1, 0, 0], "LESS_OR_EQUALS", 2)
-        ];
-        const solution = getSolution(new DataCaseSimplex(testCase.typeCase, testCase.targetFunction, testCase.restrictions));
+    #renderSolution(solution) {
+        const $solutionSection = document.querySelector("#solution-section");
+        const htmlSolutionVariables = solution.variables.reduce(
+            (acc, curr) => `${acc}${templates.getSolutionVariables(curr)}`, "");
+        const typeCase = this.#inputTypeCase.getValue();
+        const { resultTargetFunction } = solution;
+        const htmlSolution = templates.getSolution(typeCase, resultTargetFunction, htmlSolutionVariables, solution.countIterations);
         console.log(solution);
+        $solutionSection.className = "";
+        $solutionSection.innerHTML = htmlSolution;
     }
-}
-const testCase = {
-    typeCase: "MIN",
-    targetFunction: [3, 2, 1],
-    restrictions: [
-        new RestrictionSimplex([1, 2, 1], "LESS_OR_EQUALS", 10),
-        new RestrictionSimplex([1, 1, 2], "LESS_OR_EQUALS", 9),
-        new RestrictionSimplex([2, 0, 3], "LESS_OR_EQUALS", 12),
-    ]
+    #solve() {
+        const typeCase = this.#inputTypeCase.getValue();
+        const targetFunction = this.#handlerTargetFunction.getData();
+        const restrictions = this.#handleRestrictions.getRestrictionsData();
+        // const solution = getSolution(
+        //     new DataCaseSimplex(
+        //         testCase[0].typeCase, 
+        //         testCase[0].targetFunction, 
+        //         testCase[0].restrictions)
+        //     );
+        const solution = getSolution(
+            new DataCaseSimplex(typeCase, targetFunction, restrictions));
+        this.#renderSolution(solution);
+    }
 }

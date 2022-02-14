@@ -25,6 +25,13 @@ class TableSimplex {
         this.prevRestrictions = [[]];
         this.data = data;
     }
+    applyAlgorithmDev(quantity) {
+        for (let i = 0; i < quantity; i++) {
+            this.#copyRestrictionToPrevRestrictions();
+            console.log("Resultado: " + this.#getZj()[0]);
+            this.#iterate();
+        }
+    }
     applyAlgorithm() {
         let prevValueTargetFunction = 0;
         let countIterations = 0;
@@ -48,20 +55,20 @@ class TableSimplex {
     #getVariablesToResult() {
         const foundVariables = this.Ci.map((cell, idx) => {
             return {
-                variable: cell.variable, 
+                key: cell.variable, 
                 value: this.restrictions[idx].bi
             };
         });
         this.Cj.forEach(cell => {
-            if (foundVariables.some(item => item.variable === cell.variable))
+            if (foundVariables.some(item => item.key === cell.variable))
                 return;
             foundVariables.push({
-                variable: cell.variable,
+                key: cell.variable,
                 value: 0
             });
         });
         foundVariables.sort((item1, item2) => {
-            return item1.variable > item2.variable ? 1 : -1;
+            return item1.key > item2.key ? 1 : -1;
         })
         return foundVariables;
     }
@@ -252,12 +259,18 @@ const processSolution = (data, targetFunctionWithExtraVariables, coeffFactorsSta
     const table = bindTable(data, targetFunctionWithExtraVariables, coeffFactorsStandardRestrictions);
     return table.applyAlgorithm();
 }
-const getSolution = (data = new DataCaseSimplex()) => {
+const getTableForDev = (data, targetFunctionWithExtraVariables, coeffFactorsStandardRestrictions) => {
+    const table = bindTable(data, targetFunctionWithExtraVariables, coeffFactorsStandardRestrictions);
+    return table;
+}
+const getSolution = (data = new DataCaseSimplex(), isDev = false) => {
     let coeffFactorsStandardRestrictions = getCoeffFactorsStandardRestrictions(data.restrictions);
     const maxLengthVariables = getMaxLengthVariablesBy(coeffFactorsStandardRestrictions);
     coeffFactorsStandardRestrictions = fillZerosStandardRestrictions(coeffFactorsStandardRestrictions, maxLengthVariables);
     const targetFunctionWithExtraVariables = fillZerosTargetFunction(data.targetFunction, maxLengthVariables);
-    return processSolution(data, targetFunctionWithExtraVariables, coeffFactorsStandardRestrictions);
+    if (!isDev)
+        return processSolution(data, targetFunctionWithExtraVariables, coeffFactorsStandardRestrictions);
+    return getTableForDev(data, targetFunctionWithExtraVariables, coeffFactorsStandardRestrictions);
 }
 
 export default getSolution;

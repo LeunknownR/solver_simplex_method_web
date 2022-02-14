@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" href="./public/images/func-icon.png" type="image/png"/>
     <link rel="stylesheet" href="./public/styles/normalize.css">
     <link rel="stylesheet" href="./public/styles/index.css">
     <title>Solver Simplex Method</title>
 </head>
 <body>
     <header id="main-header">
-        <h1>Solver Simplex Method</h1>
+        <div class="title">
+            <span class="iconify" data-icon="fluent:math-formula-16-filled"></span>
+            <h1>Solver Simplex Method</h1>
+        </div>
+        <div id="btn-dev">
+            <span 
+            class="iconify" 
+            data-icon="bx:bxl-dev-to"></span>
+        </div>
     </header>
     <main>
         <form id="form-data-case">
@@ -82,9 +91,11 @@
                 </button>
             </footer>
         </form>
+        <section id="solution-section" class="hidden">
+        </section>
     </main>
     <footer id="main-footer">
-        <h5>Desarrollado por Manuel Rivera</h5>
+        <h5>© Desarrollado por Manuel Rivera Becerra</h5>
     </footer>
     <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
     <script type="module" src="./public/scripts/index.js"></script>
